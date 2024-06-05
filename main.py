@@ -34,7 +34,7 @@ def extract_caddy(file_name):
 def create_caddyfile():
     caddyfile_content = """
     :10001 {
-        reverse_proxy /vlws* http://localhost:10086 {
+        reverse_proxy /pythontest* http://localhost:10086 {
             header_up Connection {http.request.header.Connection}
             header_up Upgrade {http.request.header.Upgrade}
             header_up Host {http.request.header.Host}
