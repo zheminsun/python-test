@@ -316,6 +316,6 @@ if __name__ == "__main__":
         extract_caddy(file_name)
         create_caddyfile()
     kill_process_by_name("./caddy run")
-    start_caddy()  
+    #start_caddy()  
     
     run(app, host='0.0.0.0', port=10000)
