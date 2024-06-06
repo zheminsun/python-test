@@ -52,15 +52,11 @@ def save_json_to_file(file_path):
                     "decryption": "none",
                 },
                 "streamSettings": {
-                    "network": "h2",
-                    "httpSettings": {
-                      "path": "/vless"
-                    }
+                    "network": "tcp"
                 },
-                "alpn": ["h2"],
                 "sniffing": {
                     "enabled": True,
-                    "destOverride": ["http", "tls", "quic","h2"],
+                    "destOverride": ["http", "tls", "quic"],
                     "metadataOnly": False,
                 },
             },
