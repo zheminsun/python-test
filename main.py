@@ -65,69 +65,112 @@ def start_caddy():
 
 def save_json_to_file(file_path):
     data = {
-        "log": {"loglevel": "debug"},
-        "inbounds": [
-            {
-                "port": 10003,
-                "tag": "inbound-dokodemo",
-                "protocol": "dokodemo-door",
-                "settings": {
-                    "network": "tcp",
-                    "allowTransparent": True,
-                    "followRedirect": True,
-                },
-                "sniffing": {"enabled": True, "destOverride": ["http", "tls"]},
-                "streamSettings": {"sockopt": {"tproxy": "redirect"}},
+    "log":{
+        "access":"/dev/null",
+        "error":"/dev/null",
+        "loglevel":"none"
+    },
+    "inbounds":[
+        {
+            "port":10001,
+            "protocol":"vless",
+            "settings":{
+                "clients":[
+                    {
+                        "id":"0e9fe21c-78b5-4ef8-87f7-40b7d2ffac75",
+                        "flow":"xtls-rprx-vision"
+                    }
+                ],
+                "decryption":"none",
+                "fallbacks":[
+                    {
+                        "path":"/vless",
+                        "dest":3002
+                    }
+                ]
             },
-            {
-                "port": 10086,
-                "tag": "inbound-vless",
-                "protocol": "vless",
-                "settings": {
-                    "clients": [
-                        {
-                            "id": "0e9fe21c-78b5-4ef8-87f7-40b7d2ffac75",
-                            "level": 0,
-                            "email": "email@example.com",
-                        }
-                    ],
-                    "decryption": "none",
-                },
-                "streamSettings": {"network": "ws", "security": "none", "wsSettings": {
-                    "path": "/pythontest"
-                }},
-            },
-        ],
-        "outbounds": [
-            {"protocol": "freedom", "settings": {}, "tag": "direct"},
-            {
-                "protocol": "freedom",
-                "settings": {"redirect": "127.0.0.1:10086"},
-                "tag": "to-vless",
-            },
-            {
-                "protocol": "freedom",
-                "settings": {"redirect": "127.0.0.1:10000"},
-                "tag": "inner-http",
-            },
-        ],
-        "dns": {"servers": ["1.1.1.1", "8.8.8.8"]},
-        "routing": {
-            "domainStrategy": "AsIs",
-            "rules": [
-                {
-                    "type": "field",
-                    "inboundTag": ["inbound-dokodemo"],
-                    "outboundTag": "inner-http",
-                },
-                {
-                    "type": "field",
-                    "inboundTag": ["inbound-vless"],
-                    "outboundTag": "direct",
-                },
-            ],
+            "streamSettings":{
+                "network":"tcp"
+            }
         },
+        {
+            "port":3002,
+            "listen":"127.0.0.1",
+            "protocol":"vless",
+            "settings":{
+                "clients":[
+                    {
+                        "id":"0e9fe21c-78b5-4ef8-87f7-40b7d2ffac75",
+                        "level":0
+                    }
+                ],
+                "decryption":"none"
+            },
+            "streamSettings":{
+                "network":"ws",
+                "security":"none",
+                "wsSettings":{
+                    "path":"/vless"
+                }
+            },
+            "sniffing":{
+                "enabled":true,
+                "destOverride":[
+                    "http",
+                    "tls",
+                    "quic"
+                ],
+                "metadataOnly":False
+            }
+        }
+    ],
+    "dns":{
+        "servers":[
+            "https+local://8.8.8.8/dns-query"
+        ]
+    },
+    "outbounds":[
+        {
+            "protocol":"freedom"
+        },
+        {
+            "tag":"WARP",
+            "protocol":"wireguard",
+            "settings":{
+                "secretKey":"YFYOAdbw1bKTHlNNi+aEjBM3BO7unuFC5rOkMRAz9XY=",
+                "address":[
+                    "172.16.0.2/32",
+                    "2606:4700:110:8a36:df92:102a:9602:fa18/128"
+                ],
+                "peers":[
+                    {
+                        "publicKey":"bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+                        "allowedIPs":[
+                            "0.0.0.0/0",
+                            "::/0"
+                        ],
+                        "endpoint":"162.159.193.10:2408"
+                    }
+                ],
+                "reserved":[78, 135, 76],
+                "mtu":1280
+            }
+        }
+    ],
+    "routing":{
+        "domainStrategy":"AsIs",
+        "rules":[
+            {
+                "type":"field",
+                "domain":[
+                    "domain:openai.com",
+                    "domain:ai.com"
+                ],
+                "outboundTag":"WARP"
+            }
+        ]
     }
+}
 
     with open(file_path+"/config.json", 'w') as file:
         json.dump(data, file, indent=4)
