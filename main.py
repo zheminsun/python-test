@@ -55,7 +55,8 @@ def save_json_to_file(file_path):
                     "network": "h2",
                     "httpSettings": {
                       "path": "/vless"
-                    },
+                    }
+                },
                 "alpn": ["h2"],
                 "sniffing": {
                     "enabled": True,
