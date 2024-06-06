@@ -114,7 +114,7 @@ def save_json_to_file(file_path):
                 }
             },
             "sniffing":{
-                "enabled":true,
+                "enabled":True,
                 "destOverride":[
                     "http",
                     "tls",
