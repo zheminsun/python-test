@@ -27,8 +27,7 @@ def save_json_to_file(file_path):
                 "settings": {
                     "clients": [
                         {
-                            "id": "986e0d08-b275-4dd3-9e75-f3094b36fa2a",
-                            "flow": "xtls-rprx-vision",
+                            "id": "986e0d08-b275-4dd3-9e75-f3094b36fa2a"
                         }
                     ],
                     "decryption": "none",
@@ -41,16 +40,6 @@ def save_json_to_file(file_path):
                     ],
                 },
                 "streamSettings": {"network": "tcp"},
-            },
-            {
-                "port": 3001,
-                "listen": "127.0.0.1",
-                "protocol": "vless",
-                "settings": {
-                    "clients": [{"id": "986e0d08-b275-4dd3-9e75-f3094b36fa2a"}],
-                    "decryption": "none",
-                },
-                "streamSettings": {"network": "ws", "security": "none"},
             },
             {
                 "port": 3002,
