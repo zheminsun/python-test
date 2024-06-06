@@ -42,7 +42,7 @@ def create_caddyfile():
             header_up Upgrade "websocket"
             header_up Connection "Upgrade"
         }
-        reverse_proxy /ht http://localhost:10000 {
+        reverse_proxy / http://localhost:10000 {
             header_up Host {http.request.header.Host}
             header_up X-Real-IP {http.request.header.X-Real-IP}
             header_up X-Forwarded-For {http.request.header.X-Forwarded-For}
@@ -68,7 +68,7 @@ def save_json_to_file(file_path):
         "log": {"loglevel": "debug"},
         "inbounds": [
             {
-                "port": 10001,
+                "port": 10003,
                 "tag": "inbound-dokodemo",
                 "protocol": "dokodemo-door",
                 "settings": {
@@ -273,6 +273,6 @@ if __name__ == "__main__":
         extract_caddy(file_name)
         create_caddyfile()
     kill_process_by_name("./caddy run")
-    #start_caddy()  
+    start_caddy()  
     
     run(app, host='0.0.0.0', port=10000)
