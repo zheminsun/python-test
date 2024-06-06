@@ -11,7 +11,7 @@ from bottle import Bottle, run
 
 app = Bottle()
 
-@app.route('/ht')
+@app.route('/')
 def read_root():
     return {"message": "Hello, World!"}
 
