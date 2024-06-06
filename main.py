@@ -31,6 +31,13 @@ def save_json_to_file(file_path):
                         }
                     ],
                     "decryption": "none",
+                    "fallbacks": [
+                        {"dest": 10000},
+                        {"path": "/vless", "dest": 3002},
+                        {"path": "/vmess", "dest": 3003},
+                        {"path": "/trojan", "dest": 3004},
+                        {"path": "/tcp", "dest": 3005},
+                    ],
                     
                 },
                 "streamSettings": {"network": "tcp"},
@@ -46,7 +53,10 @@ def save_json_to_file(file_path):
                     "decryption": "none",
                 },
                 "streamSettings": {
-                    "network": "tcp"
+                    "network": "ws",
+                    "wsSettings": {
+                      "path": "/vless"
+                    }
                 },
                 "sniffing": {
                     "enabled": True,
@@ -91,19 +101,16 @@ def save_json_to_file(file_path):
             {
                 "port": 3005,
                 "listen": "127.0.0.1",
-                "protocol": "shadowsocks",
+                "protocol": "vless",
                 "settings": {
                     "clients": [
-                        {
-                            "method": "chacha20-ietf-poly1305",
-                            "password": "986e0d08-b275-4dd3-9e75-f3094b36fa2a",
-                        }
+                        {"id": "986e0d08-b275-4dd3-9e75-f3094b36fa2a", "level": 0}
                     ],
                     "decryption": "none",
                 },
                 "streamSettings": {
-                    "network": "ws",
-                    "wsSettings": {"path": "/shadowsocks"},
+                    "network": "tcp",
+                    "security": "none",
                 },
                 "sniffing": {
                     "enabled": True,
