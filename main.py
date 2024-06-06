@@ -52,13 +52,13 @@ def save_json_to_file(file_path):
                     "decryption": "none",
                 },
                 "streamSettings": {
-                    "network": "ws",
-                    "security": "none",
-                    "wsSettings": {"path": "/vless"},
-                },
+                    "network": "h2",
+                    "httpSettings": {
+                      "path": "/vless"
+                    },
                 "sniffing": {
                     "enabled": True,
-                    "destOverride": ["http", "tls", "quic"],
+                    "destOverride": ["http", "tls", "quic","h2"],
                     "metadataOnly": False,
                 },
             },
