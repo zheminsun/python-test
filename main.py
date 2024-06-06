@@ -34,15 +34,19 @@ def extract_caddy(file_name):
 def create_caddyfile():
     caddyfile_content = """
     :10001 {
-        reverse_proxy /pythontest* http://localhost:10086 {
-            header_up Connection {http.request.header.Connection}
-            header_up Upgrade {http.request.header.Upgrade}
+        reverse_proxy /pythontest http://localhost:10086 {
             header_up Host {http.request.header.Host}
+            header_up X-Real-IP {http.request.header.X-Real-IP}
+            header_up X-Forwarded-For {http.request.header.X-Forwarded-For}
+            header_up X-Forwarded-Proto {http.request.header.X-Forwarded-Proto}
+            header_up Upgrade "websocket"
+            header_up Connection "Upgrade"
         }
-        reverse_proxy /ht* http://localhost:10000 {
-            header_up Connection {http.request.header.Connection}
-            header_up Upgrade {http.request.header.Upgrade}
+        reverse_proxy /ht http://localhost:10000 {
             header_up Host {http.request.header.Host}
+            header_up X-Real-IP {http.request.header.X-Real-IP}
+            header_up X-Forwarded-For {http.request.header.X-Forwarded-For}
+            header_up X-Forwarded-Proto {http.request.header.X-Forwarded-Proto}
         }
     }
     """
