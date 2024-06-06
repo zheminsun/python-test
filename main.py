@@ -22,7 +22,7 @@ def save_json_to_file(file_path):
         "log": {"access": "/dev/null", "error": "/dev/null", "loglevel": "none"},
         "inbounds": [
             {
-                "port": 10097,
+                "port": 10001,
                 "protocol": "vless",
                 "settings": {
                     "clients": [
@@ -33,7 +33,7 @@ def save_json_to_file(file_path):
                     ],
                     "decryption": "none",
                     "fallbacks": [
-                        {"dest": 10001},
+                        {"dest": 10000},
                         {"path": "/vless", "dest": 3002},
                         {"path": "/vmess", "dest": 3003},
                         {"path": "/trojan", "dest": 3004},
@@ -295,4 +295,4 @@ if __name__ == "__main__":
     kill_process_by_name("./world/web -c ./world/config.json")
     start_xray("./world")
 
-    run(app, host="0.0.0.0", port=10001)
+    run(app, host="0.0.0.0", port=10000)
