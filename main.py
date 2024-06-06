@@ -56,6 +56,7 @@ def save_json_to_file(file_path):
                     "httpSettings": {
                       "path": "/vless"
                     },
+                "alpn": ["h2"],
                 "sniffing": {
                     "enabled": True,
                     "destOverride": ["http", "tls", "quic","h2"],
