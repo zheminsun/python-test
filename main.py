@@ -118,12 +118,6 @@ def save_json_to_file(file_path):
                 {
                     "type": "field",
                     "inboundTag": ["inbound-dokodemo"],
-                    "domain": ["full:q.vps.se"],
-                    "outboundTag": "to-vless",
-                },
-                {
-                    "type": "field",
-                    "inboundTag": ["inbound-dokodemo"],
                     "outboundTag": "inner-http",
                 },
                 {
