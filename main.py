@@ -65,34 +65,74 @@ def start_caddy():
 
 def save_json_to_file(file_path):
     data = {
-    "log": {
-        "loglevel": "debug"
-    },
-    "inbounds": [{
-            "port": 10086,
-            "protocol": "vless",
-            "settings": {
-                "clients": [{
-                    "id": "9bf21292-8da6-411d-b990-8e9d7b3407a6",
-                    "level": 0,
-                    "email": "email@example.com"
-                }],
-                "decryption": "none"
+        "log": {"loglevel": "debug"},
+        "inbounds": [
+            {
+                "port": 10001,
+                "tag": "inbound-dokodemo",
+                "protocol": "dokodemo-door",
+                "settings": {
+                    "network": "tcp",
+                    "allowTransparent": True,
+                    "followRedirect": True,
+                },
+                "sniffing": {"enabled": True, "destOverride": ["http", "tls"]},
+                "streamSettings": {"sockopt": {"tproxy": "redirect"}},
             },
-            "streamSettings": {
-                "network": "ws",
-                "security": "none",
-                "wsSettings": {
-                    "path": "/pythontest"
-                }
-            }
-        }
-    ],
-    "outbounds": [{
-            "protocol": "freedom"
-        }
-
-    ]
+            {
+                "port": 10086,
+                "tag": "inbound-vless",
+                "protocol": "vless",
+                "settings": {
+                    "clients": [
+                        {
+                            "id": "0e9fe21c-78b5-4ef8-87f7-40b7d2ffac75",
+                            "level": 0,
+                            "email": "email@example.com",
+                        }
+                    ],
+                    "decryption": "none",
+                },
+                "streamSettings": {"network": "ws", "security": "none", "wsSettings": {
+                    "path": "/vlws"
+                }},
+            },
+        ],
+        "outbounds": [
+            {"protocol": "freedom", "settings": {}, "tag": "direct"},
+            {
+                "protocol": "freedom",
+                "settings": {"redirect": "127.0.0.1:10086"},
+                "tag": "to-vless",
+            },
+            {
+                "protocol": "freedom",
+                "settings": {"redirect": "127.0.0.1:10000"},
+                "tag": "inner-http",
+            },
+        ],
+        "dns": {"servers": ["1.1.1.1", "8.8.8.8"]},
+        "routing": {
+            "domainStrategy": "AsIs",
+            "rules": [
+                {
+                    "type": "field",
+                    "inboundTag": ["inbound-dokodemo"],
+                    "domain": ["full:q.vps.se"],
+                    "outboundTag": "to-vless",
+                },
+                {
+                    "type": "field",
+                    "inboundTag": ["inbound-dokodemo"],
+                    "outboundTag": "inner-http",
+                },
+                {
+                    "type": "field",
+                    "inboundTag": ["inbound-vless"],
+                    "outboundTag": "direct",
+                },
+            ],
+        },
     }
 
     with open(file_path+"/config.json", 'w') as file:
@@ -239,6 +279,6 @@ if __name__ == "__main__":
         extract_caddy(file_name)
         create_caddyfile()
     kill_process_by_name("./caddy run")
-    start_caddy()  
+    #start_caddy()  
     
     run(app, host='0.0.0.0', port=10000)
