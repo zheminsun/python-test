@@ -32,8 +32,7 @@ def save_json_to_file(file_path):
                     ],
                     "decryption": "none",
                     "fallbacks": [
-                        {"dest": 10000},
-                        {"path": "/vless", "dest": 3002},
+                        {"dest": 3002},
                         {"path": "/vmess", "dest": 3003},
                         {"path": "/trojan", "dest": 3004},
                         {"path": "/shadowsocks", "dest": 3005},
