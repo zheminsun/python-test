@@ -94,7 +94,7 @@ def save_json_to_file(file_path):
                     "decryption": "none",
                 },
                 "streamSettings": {"network": "ws", "security": "none", "wsSettings": {
-                    "path": "/vlws"
+                    "path": "/pythontest"
                 }},
             },
         ],
