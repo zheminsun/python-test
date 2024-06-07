@@ -35,6 +35,7 @@ def create_caddyfile():
     caddyfile_content = """
     :10001 {
         reverse_proxy /vlws http://localhost:10086 {
+            transport http { versions h1 }
             header_up Upgrade "websocket"
             header_up Connection "Upgrade"
             header_up Host {http.request.header.Host}
