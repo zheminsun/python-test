@@ -8,12 +8,14 @@ import zipfile
 import psutil
 import signal
 from bottle import Bottle, run
+from datetime import datetime
 
 app = Bottle()
 
-@app.route('/ht')
+@app.route("/ht")
 def read_root():
-    return {"message": "Hello, World!"}
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return {"message": "Hello, World!", "time": current_time}
 
 def download_caddy():
     caddy_url = "https://github.com/caddyserver/caddy/releases/download/v2.4.6/caddy_2.4.6_linux_amd64.tar.gz"
