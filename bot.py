@@ -8,13 +8,14 @@ import zipfile
 import psutil
 import signal
 from bottle import Bottle, run
+from datetime import datetime
 
 app = Bottle()
 
-
 @app.route("/ht")
 def read_root():
-    return {"message": "Hello, World!"}
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return {"message": "Hello, World!", "time": current_time}
 
 
 def save_json_to_file(file_path):
