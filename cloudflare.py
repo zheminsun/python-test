@@ -23,7 +23,7 @@ def save_json_to_file(file_path):
         "log": {"access": "/dev/null", "error": "/dev/null", "loglevel": "none"},
         "inbounds": [
             {
-                "port": 4956,
+                "port": 8080,
                 "protocol": "vless",
                 "settings": {
                     "clients": [
@@ -218,7 +218,7 @@ def add_cloudflare_tunnel():
     commands = [
         "curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb",
         "sudo dpkg -i cloudflared.deb",
-        "sudo cloudflared service install eyJhIjoiMWQzOGFjODVkM2NjNDY4ZGQ5YjQxM2VhZmNlZjQxOTIiLCJ0IjoiYjM5MzczMDEtZjM1NS00Y2Q2LTkwMmItYzMxMmExZjJiZmUyIiwicyI6Ik5tWXpPVEUyT0RVdE5Ua3haUzAwT0dNMExXRTFPREF0TkdOaVpXVXlNRFEwTmpZMSJ9"
+        "sudo cloudflared service install eyJhIjoiMWQzOGFjODVkM2NjNDY4ZGQ5YjQxM2VhZmNlZjQxOTIiLCJ0IjoiYTllYzRjMGEtOWEwYi00Zjg2LWIxMmItMzFiOWNkNDRlZmZmIiwicyI6Ik5tUXlZV1UzTVdFdFkyWXpZeTAwWWpreExUZzBNR0V0WXpOaU9XSXpaalZrTTJNeSJ9"
     ]
 
     # 逐个执行命令
